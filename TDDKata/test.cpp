@@ -120,7 +120,10 @@ TEST(TDDKata, BadSplitChar) {
 
 
 
-/* Exercise #2 */
+/* 
+	Exercise #2
+		Allow the Add method to handle an unknown amount of numbers
+*/
 
 TEST(TDDKata, Op3) {
 	/* Arrange */
@@ -159,6 +162,45 @@ TEST(TDDKata, Op6BadSymbol) {
 	char*      strInput = "3,2,7,x,3,8";
 	int	       result;
 	int	       expect = -1;
+	Calculator calc;
+
+	/* Act */
+	result = calc.Add(strInput);
+
+	/* Assert */
+	ASSERT_EQ(expect, result);
+}
+
+
+
+
+/*
+	Exercise #3
+		Allow the Add method to handle new lines between numbers (instead of commas)
+		• the following input is ok:“1\n2,3”(will equal 6)•the following input is NOTok:“1,\n” 
+*/
+
+TEST(TDDKata, NewDelimeter) {
+	/* Arrange */
+	char*      strInput = "1\n2,3";
+	int	       result;
+	int	       expect = 5;
+	Calculator calc;
+
+	/* Act */
+	result = calc.Add(strInput);
+
+	/* Assert */
+	ASSERT_EQ(expect, result);
+}
+
+
+
+TEST(TDDKata, OpMiss) {
+	/* Arrange */
+	char*      strInput = "1,\n";
+	int	       result;
+	int	       expect = -3;
 	Calculator calc;
 
 	/* Act */
