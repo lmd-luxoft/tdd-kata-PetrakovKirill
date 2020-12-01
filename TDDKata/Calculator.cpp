@@ -1,6 +1,12 @@
 #include "pch.h"
 #include "Calculator.h"
-#include <string.h>
+#include <cstring>
+
+
+#define ERR_TOKEN_NOT_NUMBER    (-1 )
+#define ERR_BAD_DELIM_CHAR      (-2 )
+#define ERR_OP_MISS             (-3 )
+
 
 /* String is number? */
 static int CheckStr(char *str) {
@@ -17,76 +23,111 @@ static int CheckStr(char *str) {
 }
 
 
+#define ERR_DELIM_WITHOUT_END     (-4)
+static int GetDelim(char **s, char **delim) {
+    int status = 0;
 
-int Calculator::Add(std::string expression)
-{
+    const char *DEFAULT_DELIM    = ",\n";
+    const char *CHANGE_DELIM_TOK = "//";
+    
+    char *cur   = NULL;
+
+    cur = strstr(*s, CHANGE_DELIM_TOK);
+    if ( cur && (cur == *s) ) {
+        *delim = cur + strlen(CHANGE_DELIM_TOK);
+
+        /* Find terminate delim string */
+        cur = strchr(*delim, '\n');
+        if (cur) {
+            *cur = '\0';
+            *s = cur + 1;
+        } else {
+            status = ERR_DELIM_WITHOUT_END;
+        }
+    } else {
+        /* Set default delim */
+        *delim = (char *)DEFAULT_DELIM;
+    }
+
+    return (status);
+}
+
+
+
+static int Parse(char *tok, char *delim, char *nextSubStr) {
+    int result = 0;
+
+    if (CheckStr(tok)) {
+        result = atoi(tok);
+
+        /* Check first char in the next substring */
+        if (nextSubStr && (*nextSubStr != '\0')) {
+            if (strchr(delim, *nextSubStr)) {
+                /* This is char is delimeter */
+                result = ERR_OP_MISS;
+            }
+        }
+    } else {
+        result = ERR_TOKEN_NOT_NUMBER;
+    }
+
+    return (result);
+}
+
+
+
+int Calculator::Add(std::string expression) {
     return 0;
 }
 
-#define MAX_OP                  (255)
-#define ERR_MANY_ARG            (-10)
-#define ERR_TOKEN_NOT_NUMBER    (-1 )
-#define ERR_BAD_SPLIT_CHAR      (-2 )
-#define ERR_OP_MISS             (-3 )
+
 
 int Calculator::Add(char* expression) {
-    const char* delim = ",\n";
-
+    char *delim;
     char *strCopy = strdup(expression);
     char *ptrFree = strCopy;
+    char *tok, *rest;
 
-    int result, op[MAX_OP] = { 0, 0 };
-    int opCnt = 0;
-    char *tok;
+    int result = 0, opCnt = 0;
+    int sum = 0, op = 0;
 
-        /* Check Empty */
+    /* Check Empty */
     if ((expression == NULL) || (strlen(expression) == 0)) {
-        return (0);
+        goto exit;
     }
 
-    if (strstr(expression, delim)) {
-        result = ERR_OP_MISS;
-        return (result);
+    /* check on "//" */
+    result = GetDelim(&strCopy, &delim);
+    if (result != 0) {
+        goto exit;
     }
 
-    opCnt  = 0;
-    tok    = strtok(strCopy, delim);
 
-    if (strcmp(strCopy, expression) == 0) {
-        if (!CheckStr(tok)) {
-            result = ERR_BAD_SPLIT_CHAR;
-            return (result);
-        }
-    }
-
-    result = 0;
+    tok = strtok_s(strCopy, delim, &rest);
 
     while (true) {
         if (tok == NULL) {
+            /* Parse complete */
             break;
         }
 
-        if (opCnt >= MAX_OP) {
-            result = ERR_MANY_ARG;
+        op = Parse(tok, delim, rest);
+        if (op < 0) {
+            /* Fail complete, take code erroro from op value */
+            result = op;
             break;
-        }
-
-        if (CheckStr(tok)) {
-            op[opCnt] = atoi(tok);
-            tok       = strtok(NULL, delim);
-            opCnt++;
         } else {
-            result = ERR_TOKEN_NOT_NUMBER;
-            break;
+            sum += op;
+            tok  = strtok_s(rest, delim, &rest);
         }
     }
 
-    if (result >= 0) {
-        for (int i = 0; i < opCnt; ++i)
-        result += op[i];
+    if (result == 0) {
+        result = sum;
     }
 
-    /* Clean memory */
+exit:
+    /* Free memory */
     if (ptrFree) {
         free(ptrFree);
     }
