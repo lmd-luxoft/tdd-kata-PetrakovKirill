@@ -209,3 +209,43 @@ TEST(TDDKata, OpMiss) {
 	/* Assert */
 	ASSERT_EQ(expect, result);
 }
+
+
+#if 0
+	Exercise #4
+	Support different delimiters
+		• to change a delimiter, the beginning of the string will contain a separate 
+		  line that looks like this:“//[delimiter]\n[numbers...]” for example “//;\n1;2” should return three where 
+		  the default delimiter is ‘;’ •the first line is optional –all existing scenarios should still be supported
+#endif
+
+
+TEST(TDDKata, UserDelimCorrect) {
+	/* Arrange */
+	char*      strInput = "//;\n1;5;10";
+	int	       result;
+	int	       expect = 16;
+	Calculator calc;
+
+	/* Act */
+	result = calc.Add(strInput);
+
+	/* Assert */
+	ASSERT_EQ(expect, result);
+}
+
+
+
+TEST(TDDKata, UserDelimIncorrect) {
+	/* Arrange */
+	char*      strInput = "//;\n1;55,10";
+	int	       result;
+	int	       expect = -2;
+	Calculator calc;
+
+	/* Act */
+	result = calc.Add(strInput);
+
+	/* Assert */
+	ASSERT_EQ(expect, result);
+}
