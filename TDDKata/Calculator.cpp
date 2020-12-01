@@ -23,7 +23,7 @@ int Calculator::Add(std::string expression)
     return 0;
 }
 
-#define MAX_OP                  (  2)
+#define MAX_OP                  (255)
 #define ERR_MANY_ARG            (-10)
 #define ERR_TOKEN_NOT_NUMBER    (-1 )
 #define ERR_BAD_SPLIT_CHAR      (-2 )
@@ -75,7 +75,8 @@ int Calculator::Add(char* expression) {
     }
 
     if (result >= 0) {
-        result = op[0] + op[1];
+        for (int i = 0; i < opCnt; ++i)
+        result += op[i];
     }
 
     /* Clean memory */
