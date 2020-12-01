@@ -6,6 +6,7 @@
 #define ERR_TOKEN_NOT_NUMBER    (-1 )
 #define ERR_BAD_DELIM_CHAR      (-2 )
 #define ERR_OP_MISS             (-3 )
+#define ERR_DELIM_WITHOUT_END   (-4)
 
 
 /* String is number? */
@@ -23,7 +24,6 @@ static int CheckStr(char *str) {
 }
 
 
-#define ERR_DELIM_WITHOUT_END     (-4)
 static int GetDelim(char **s, char **delim) {
     int status = 0;
 
