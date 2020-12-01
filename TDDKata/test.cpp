@@ -117,3 +117,53 @@ TEST(TDDKata, BadSplitChar) {
 	/* Assert */
 	ASSERT_EQ(expect, result);
 }
+
+
+
+/* Exercise #2 */
+
+TEST(TDDKata, Op3) {
+	/* Arrange */
+	char*      strInput = "3,2,7";
+	int	       result;
+	int	       expect = 12;
+	Calculator calc;
+
+	/* Act */
+	result = calc.Add(strInput);
+
+	/* Assert */
+	ASSERT_EQ(expect, result);
+}
+
+
+
+TEST(TDDKata, Op6) {
+	/* Arrange */
+	char*      strInput = "3,2,7,10,3,8";
+	int	       result;
+	int	       expect = 33;
+	Calculator calc;
+
+	/* Act */
+	result = calc.Add(strInput);
+
+	/* Assert */
+	ASSERT_EQ(expect, result);
+}
+
+
+
+TEST(TDDKata, Op6BadSymbol) {
+	/* Arrange */
+	char*      strInput = "3,2,7,x,3,8";
+	int	       result;
+	int	       expect = 33;
+	Calculator calc;
+
+	/* Act */
+	result = calc.Add(strInput);
+
+	/* Assert */
+	ASSERT_EQ(expect, result);
+}
