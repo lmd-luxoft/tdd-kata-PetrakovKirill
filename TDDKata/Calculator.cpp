@@ -23,10 +23,10 @@ int Calculator::Add(std::string expression)
     return 0;
 }
 
-#define MAX_OP             (2)
-#define ERR_MANY_ARG     (-10)
-#define ERR_TOKEN_NOT_NUMBER (-1)
-#define ERR_BAD_SPLIT_CHAR   (-2)
+#define MAX_OP                  (  2)
+#define ERR_MANY_ARG            (-10)
+#define ERR_TOKEN_NOT_NUMBER    (-1 )
+#define ERR_BAD_SPLIT_CHAR      (-2 )
 
 int Calculator::Add(char* expression) {
     const char* delim = ",";

@@ -158,7 +158,7 @@ TEST(TDDKata, Op6BadSymbol) {
 	/* Arrange */
 	char*      strInput = "3,2,7,x,3,8";
 	int	       result;
-	int	       expect = 33;
+	int	       expect = -1;
 	Calculator calc;
 
 	/* Act */
