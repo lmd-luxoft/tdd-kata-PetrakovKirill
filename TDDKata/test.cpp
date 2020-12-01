@@ -184,7 +184,7 @@ TEST(TDDKata, NewDelimeter) {
 	/* Arrange */
 	char*      strInput = "1\n2,3";
 	int	       result;
-	int	       expect = 5;
+	int	       expect = 6;
 	Calculator calc;
 
 	/* Act */

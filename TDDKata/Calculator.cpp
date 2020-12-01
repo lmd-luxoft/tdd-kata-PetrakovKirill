@@ -27,9 +27,10 @@ int Calculator::Add(std::string expression)
 #define ERR_MANY_ARG            (-10)
 #define ERR_TOKEN_NOT_NUMBER    (-1 )
 #define ERR_BAD_SPLIT_CHAR      (-2 )
+#define ERR_OP_MISS             (-3 )
 
 int Calculator::Add(char* expression) {
-    const char* delim = ",";
+    const char* delim = ",\n";
 
     char *strCopy = strdup(expression);
     char *ptrFree = strCopy;
@@ -43,9 +44,13 @@ int Calculator::Add(char* expression) {
         return (0);
     }
 
+    if (strstr(expression, delim)) {
+        result = ERR_OP_MISS;
+        return (result);
+    }
+
     opCnt  = 0;
     tok    = strtok(strCopy, delim);
-    result = 0;
 
     if (strcmp(strCopy, expression) == 0) {
         if (!CheckStr(tok)) {
@@ -53,6 +58,8 @@ int Calculator::Add(char* expression) {
             return (result);
         }
     }
+
+    result = 0;
 
     while (true) {
         if (tok == NULL) {
