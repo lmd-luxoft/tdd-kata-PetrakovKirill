@@ -4,7 +4,7 @@
 
 
 #define ERR_TOKEN_NOT_NUMBER    ( -1 )
-#define ERR_BAD_DELIM_CHAR      ( -2 )
+#define ERR_NEGATIVE_OP         ( -2 )
 #define ERR_OP_MISS             ( -3 )
 #define ERR_DELIM_WITHOUT_END   ( -4 )
 

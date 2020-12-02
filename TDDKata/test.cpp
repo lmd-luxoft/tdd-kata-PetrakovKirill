@@ -235,3 +235,21 @@ TEST(TDDKata, UserDelimIncorrect) {
 	ASSERT_EQ(calc.Add("//;,.1;55,10.22"), -4);
 	ASSERT_EQ(calc.Add("//;,.\n1;55,.22"), -3);
 }
+
+
+/*
+	5.Calling Add with a negative number will throw an exception “negatives not allowed” 
+	  - and the negative that was passed. If there are multiple negatives, 
+	  show all of them in the exception message
+*/
+
+TEST(TDDKata, NegativeArgs) {
+	/* Arrange */
+	Calculator calc;
+
+	/* Act and Assert */
+	ASSERT_EQ(calc.Add("-1,5"),  -2);
+	ASSERT_EQ(calc.Add("1,-5"),  -2);
+	ASSERT_EQ(calc.Add("-1,-5"), -2);
+}
+
