@@ -77,7 +77,7 @@ TEST(TDDKata, Token1NotNumber) {
 
 TEST(TDDKata, Token2NotNumber) {
 	/* Arrange */
-	char*      strInput = "-1,c";
+	char*      strInput = "1,c";
 	int	       result;
 	int	       expect = -1;
 	Calculator calc;
@@ -180,37 +180,28 @@ TEST(TDDKata, Op6BadSymbol) {
 /*
 	Exercise #3
 		Allow the Add method to handle new lines between numbers (instead of commas)
-		• the following input is ok:“1\n2,3”(will equal 6)•the following input is NOTok:“1,\n” 
+		• the following input is ok:“1\n2,3”(will equal 6)
+		• the following input is NOTok:“1,\n” 
 */
 
 TEST(TDDKata, NewDelimeter) {
 	/* Arrange */
-	char*      strInput = "1\n2,3";
-	int	       result;
-	int	       expect = 6;
 	Calculator calc;
 
-	/* Act */
-	result = calc.Add(strInput);
-
-	/* Assert */
-	ASSERT_EQ(expect, result);
+	/* Act and Assert */
+	ASSERT_EQ(calc.Add("1\n2,3"),   6);
+	ASSERT_EQ(calc.Add("11,2\n3"), 16);
 }
 
 
 
 TEST(TDDKata, OpMiss) {
 	/* Arrange */
-	char*      strInput = "1,\n";
-	int	       result;
-	int	       expect = -3;
 	Calculator calc;
 
-	/* Act */
-	result = calc.Add(strInput);
-
-	/* Assert */
-	ASSERT_EQ(expect, result);
+	/* Act and Assert */
+	ASSERT_EQ(calc.Add("1,\n"), -3);
+	ASSERT_EQ(calc.Add("1\n,"), -3);
 }
 
 
@@ -218,35 +209,29 @@ TEST(TDDKata, OpMiss) {
 // Support different delimiters
 // 	• to change a delimiter, the beginning of the string will contain a separate 
 // 	  line that looks like this:“//[delimiter]\n[numbers...]” for example “//;\n1;2” should return three where 
-// 	  the default delimiter is ‘;’ •the first line is optional –all existing scenarios should still be supported
+// 	  the default delimiter is ‘;’ 
+//	• the first line is optional –all existing scenarios should still be supported
 
 
 TEST(TDDKata, UserDelimCorrect) {
 	/* Arrange */
-	char*      strInput = "//;\n1;5;10";
-	int	       result;
-	int	       expect = 16;
 	Calculator calc;
 
-	/* Act */
-	result = calc.Add(strInput);
-
-	/* Assert */
-	ASSERT_EQ(expect, result);
+	/* Act and Assert */
+	ASSERT_EQ(calc.Add("//;\n1;5;10"),     16);
+	ASSERT_EQ(calc.Add("//;,|\n1,5|10;1"), 17);
+	ASSERT_EQ(calc.Add("//;\n"), 			0);
 }
 
 
 
 TEST(TDDKata, UserDelimIncorrect) {
 	/* Arrange */
-	char*      strInput = "//;\n1;55,10";
-	int	       result;
-	int	       expect = -1;
 	Calculator calc;
 
-	/* Act */
-	result = calc.Add(strInput);
-
-	/* Assert */
-	ASSERT_EQ(expect, result);
+	/* Act and Assert */
+	ASSERT_EQ(calc.Add("//;\n1;55,10"),    -1);
+	ASSERT_EQ(calc.Add("//\n1;55,10"),     -1);
+	ASSERT_EQ(calc.Add("//;,.1;55,10.22"), -4);
+	ASSERT_EQ(calc.Add("//;,.\n1;55,.22"), -3);
 }
