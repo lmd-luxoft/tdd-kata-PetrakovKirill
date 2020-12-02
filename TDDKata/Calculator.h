@@ -3,8 +3,10 @@
 /// <summary>
 /// Class Under test
 /// </summary>
-class Calculator
-{
+class Calculator {
+public:
+	Calculator();
+	~Calculator();
 	/// <summary>
 	/// Sum of elements expression
 	/// </summary>
@@ -17,5 +19,8 @@ class Calculator
 	/// <param name="expression">Input expression</param>
 	/// <returns>Value of sum expression of expression</returns>
 	int Add(char* expression);
+
+private:
+	char *exceptionMsg;
 };
 
