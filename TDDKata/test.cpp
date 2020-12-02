@@ -41,7 +41,11 @@ TEST_F(TestFixture, SingleNum) {
 }
 
 
-
+/* 
+	TODO: Don't use, new implementation in TestFixtureWithParam.cpp and test_p.cpp 
+	This commented code should be deleted.
+*/
+#if 0
 TEST_F(TestFixture, SimpleSum) {
 	/* Arrange */
 	char*      strInput = "1,2";
@@ -239,5 +243,6 @@ TEST_F(TestFixture, NegativeArgs) {
 }
 
 
+#endif
 
 

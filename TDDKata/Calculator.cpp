@@ -90,7 +90,7 @@ static int Parse(char *tok, char *delim, char *nextSubStr) {
 
 
 int Calculator::Add(std::string expression) {
-    return 0;
+    return Add((char *)expression.c_str());
 }
 
 
