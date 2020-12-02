@@ -3,10 +3,10 @@
 #include <cstring>
 
 
-#define ERR_TOKEN_NOT_NUMBER    (-1 )
-#define ERR_BAD_DELIM_CHAR      (-2 )
-#define ERR_OP_MISS             (-3 )
-#define ERR_DELIM_WITHOUT_END   (-4)
+#define ERR_TOKEN_NOT_NUMBER    ( -1 )
+#define ERR_BAD_DELIM_CHAR      ( -2 )
+#define ERR_OP_MISS             ( -3 )
+#define ERR_DELIM_WITHOUT_END   ( -4 )
 
 
 /* String is number? */
@@ -89,7 +89,7 @@ int Calculator::Add(char* expression) {
     char *tok, *rest;
 
     int result = 0, opCnt = 0;
-    int sum = 0, op = 0;
+    int sum    = 0, op = 0;
 
     /* Check Empty */
     if ((expression == NULL) || (strlen(expression) == 0)) {
