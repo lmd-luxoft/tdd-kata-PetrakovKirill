@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Calculator.h"
-
+#include "test_fixture.h"
 
 
 
@@ -13,30 +13,28 @@
 	•Remember to refactor  after each passing test
 */
 
-TEST(TDDKata, EmptyString) {
+TEST_F(TestFixture, EmptyString) {
 	/* Arrange */
 	char*      strInput = "";
 	int	       result;
 	int	       expect = 0;
-	Calculator calc;
 
 	/* Act */
-	result = calc.Add(strInput);
+	result = calc->Add(strInput);
 
 	/* Assert */
 	ASSERT_EQ(expect, result);
 }
 
 
-TEST(TDDKata, SingleNum) {
+TEST_F(TestFixture, SingleNum) {
 	/* Arrange */
 	char*      strInput = "1";
 	int	       result;
 	int	       expect = 1;
-	Calculator calc;
 
 	/* Act */
-	result = calc.Add(strInput);
+	result = calc->Add(strInput);
 
 	/* Assert */
 	ASSERT_EQ(expect, result);
@@ -44,30 +42,28 @@ TEST(TDDKata, SingleNum) {
 
 
 
-TEST(TDDKata, SimpleSum) {
+TEST_F(TestFixture, SimpleSum) {
 	/* Arrange */
 	char*      strInput = "1,2";
 	int	       result;
 	int	       expect = 3;
-	Calculator calc;
 
 	/* Act */
-	result = calc.Add(strInput);
+	result = calc->Add(strInput);
 
 	/* Assert */
 	ASSERT_EQ(expect, result);
 }
 
 
-TEST(TDDKata, Token1NotNumber) {
+TEST_F(TestFixture, Token1NotNumber) {
 	/* Arrange */
 	char*      strInput = "b,2";
 	int	       result;
 	int	       expect = -1;
-	Calculator calc;
 
 	/* Act */
-	result = calc.Add(strInput);
+	result = calc->Add(strInput);
 
 	/* Assert */
 	ASSERT_EQ(expect, result);
@@ -75,15 +71,14 @@ TEST(TDDKata, Token1NotNumber) {
 
 
 
-TEST(TDDKata, Token2NotNumber) {
+TEST_F(TestFixture, Token2NotNumber) {
 	/* Arrange */
 	char*      strInput = "1,c";
 	int	       result;
 	int	       expect = -1;
-	Calculator calc;
 
 	/* Act */
-	result = calc.Add(strInput);
+	result = calc->Add(strInput);
 
 	/* Assert */
 	ASSERT_EQ(expect, result);
@@ -91,15 +86,14 @@ TEST(TDDKata, Token2NotNumber) {
 
 
 
-TEST(TDDKata, TokensNotNumber) {
+TEST_F(TestFixture, TokensNotNumber) {
 	/* Arrange */
 	char*      strInput = "q,c";
 	int	       result;
 	int	       expect = -1;
-	Calculator calc;
 
 	/* Act */
-	result = calc.Add(strInput);
+	result = calc->Add(strInput);
 
 	/* Assert */
 	ASSERT_EQ(expect, result);
@@ -107,15 +101,14 @@ TEST(TDDKata, TokensNotNumber) {
 
 
 
-TEST(TDDKata, BadSplitChar) {
+TEST_F(TestFixture, BadSplitChar) {
 	/* Arrange */
 	char*      strInput = "3 2";
 	int	       result;
 	int	       expect = -1;
-	Calculator calc;
 
 	/* Act */
-	result = calc.Add(strInput);
+	result = calc->Add(strInput);
 
 	/* Assert */
 	ASSERT_EQ(expect, result);
@@ -128,15 +121,14 @@ TEST(TDDKata, BadSplitChar) {
 		Allow the Add method to handle an unknown amount of numbers
 */
 
-TEST(TDDKata, Op3) {
+TEST_F(TestFixture, Op3) {
 	/* Arrange */
 	char*      strInput = "3,2,7";
 	int	       result;
 	int	       expect = 12;
-	Calculator calc;
 
 	/* Act */
-	result = calc.Add(strInput);
+	result = calc->Add(strInput);
 
 	/* Assert */
 	ASSERT_EQ(expect, result);
@@ -144,15 +136,14 @@ TEST(TDDKata, Op3) {
 
 
 
-TEST(TDDKata, Op6) {
+TEST_F(TestFixture, Op6) {
 	/* Arrange */
 	char*      strInput = "3,2,7,10,3,8";
 	int	       result;
 	int	       expect = 33;
-	Calculator calc;
 
 	/* Act */
-	result = calc.Add(strInput);
+	result = calc->Add(strInput);
 
 	/* Assert */
 	ASSERT_EQ(expect, result);
@@ -160,15 +151,14 @@ TEST(TDDKata, Op6) {
 
 
 
-TEST(TDDKata, Op6BadSymbol) {
+TEST_F(TestFixture, Op6BadSymbol) {
 	/* Arrange */
 	char*      strInput = "3,2,7,x,3,8";
 	int	       result;
 	int	       expect = -1;
-	Calculator calc;
 
 	/* Act */
-	result = calc.Add(strInput);
+	result = calc->Add(strInput);
 
 	/* Assert */
 	ASSERT_EQ(expect, result);
@@ -184,24 +174,22 @@ TEST(TDDKata, Op6BadSymbol) {
 		• the following input is NOTok:“1,\n” 
 */
 
-TEST(TDDKata, NewDelimeter) {
+TEST_F(TestFixture, NewDelimeter) {
 	/* Arrange */
-	Calculator calc;
 
 	/* Act and Assert */
-	ASSERT_EQ(calc.Add("1\n2,3"),   6);
-	ASSERT_EQ(calc.Add("11,2\n3"), 16);
+	ASSERT_EQ(calc->Add("1\n2,3"),   6);
+	ASSERT_EQ(calc->Add("11,2\n3"), 16);
 }
 
 
 
-TEST(TDDKata, OpMiss) {
+TEST_F(TestFixture, OpMiss) {
 	/* Arrange */
-	Calculator calc;
 
 	/* Act and Assert */
-	ASSERT_EQ(calc.Add("1,\n"), -3);
-	ASSERT_EQ(calc.Add("1\n,"), -3);
+	ASSERT_EQ(calc->Add("1,\n"), -3);
+	ASSERT_EQ(calc->Add("1\n,"), -3);
 }
 
 
@@ -213,27 +201,25 @@ TEST(TDDKata, OpMiss) {
 //	• the first line is optional –all existing scenarios should still be supported
 
 
-TEST(TDDKata, UserDelimCorrect) {
+TEST_F(TestFixture, UserDelimCorrect) {
 	/* Arrange */
-	Calculator calc;
 
 	/* Act and Assert */
-	ASSERT_EQ(calc.Add("//;\n1;5;10"),     16);
-	ASSERT_EQ(calc.Add("//;,|\n1,5|10;1"), 17);
-	ASSERT_EQ(calc.Add("//;\n"), 			0);
+	ASSERT_EQ(calc->Add("//;\n1;5;10"),     16);
+	ASSERT_EQ(calc->Add("//;,|\n1,5|10;1"), 17);
+	ASSERT_EQ(calc->Add("//;\n"), 			0);
 }
 
 
 
-TEST(TDDKata, UserDelimIncorrect) {
+TEST_F(TestFixture, UserDelimIncorrect) {
 	/* Arrange */
-	Calculator calc;
 
 	/* Act and Assert */
-	ASSERT_EQ(calc.Add("//;\n1;55,10"),    -1);
-	ASSERT_EQ(calc.Add("//\n1;55,10"),     -1);
-	ASSERT_EQ(calc.Add("//;,.1;55,10.22"), -4);
-	ASSERT_EQ(calc.Add("//;,.\n1;55,.22"), -3);
+	ASSERT_EQ(calc->Add("//;\n1;55,10"),    -1);
+	ASSERT_EQ(calc->Add("//\n1;55,10"),     -1);
+	ASSERT_EQ(calc->Add("//;,.1;55,10.22"), -4);
+	ASSERT_EQ(calc->Add("//;,.\n1;55,.22"), -3);
 }
 
 
@@ -243,13 +229,15 @@ TEST(TDDKata, UserDelimIncorrect) {
 	  show all of them in the exception message
 */
 
-TEST(TDDKata, NegativeArgs) {
+TEST_F(TestFixture, NegativeArgs) {
 	/* Arrange */
-	Calculator calc;
 
 	/* Act and Assert */
-	ASSERT_EQ(calc.Add("-1,5"),  -2);
-	ASSERT_EQ(calc.Add("1,-5"),  -2);
-	ASSERT_EQ(calc.Add("-1,-5"), -2);
+	ASSERT_EQ(calc->Add("-1,5"),  -2);
+	ASSERT_EQ(calc->Add("1,-5"),  -2);
+	ASSERT_EQ(calc->Add("-1,-5"), -2);
 }
+
+
+
 

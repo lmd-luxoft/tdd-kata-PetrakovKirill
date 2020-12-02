@@ -9,10 +9,20 @@
 #define ERR_DELIM_WITHOUT_END   ( -4 )
 
 
+Calculator::Calculator() : exceptionMsg(NULL) {}
+Calculator::~Calculator() {
+    if (exceptionMsg) {
+        free(exceptionMsg);
+    }
+}
+
+
 /* String is number? */
 static int CheckStr(char *str) {
     int i, length = strlen(str);
-    for (i = 0; i < length; ++i) {
+
+    i = (str[0] == '-') ? (1) : (0);
+    for ( ; i < length; ++i) {
         if (isdigit(str[i]) == 0) {
             /* Not Number */
             return 0;
@@ -59,13 +69,16 @@ static int Parse(char *tok, char *delim, char *nextSubStr) {
 
     if (CheckStr(tok)) {
         result = atoi(tok);
-
-        /* Check first char in the next substring */
-        if (nextSubStr && (*nextSubStr != '\0')) {
-            if (strchr(delim, *nextSubStr)) {
-                /* This is char is delimeter */
-                result = ERR_OP_MISS;
+        if (result >= 0) {
+            /* Check first char in the next substring */
+            if (nextSubStr && (*nextSubStr != '\0')) {
+                if (strchr(delim, *nextSubStr)) {
+                    /* This is char is delimeter */
+                    result = ERR_OP_MISS;
+                }
             }
+        } else {
+            result = ERR_NEGATIVE_OP;
         }
     } else {
         result = ERR_TOKEN_NOT_NUMBER;
